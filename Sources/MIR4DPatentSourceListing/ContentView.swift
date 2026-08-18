@@ -2,6 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var model: ListingViewModel
+    @State private var newProfileName = ""
+    @State private var showProfileSheet = false
+
     var body: some View {
         NavigationSplitView {
             Form {
@@ -24,12 +27,44 @@ struct ContentView: View {
                     TextField("Дата регистрации", text: $model.metadata.registrationDate)
                     TextField("Примечание", text: $model.metadata.notes, axis: .vertical).lineLimit(3...6)
                 }
+                Section("Профили") {
+                    if model.profiles.isEmpty { Text("Сохраненных профилей нет.").foregroundStyle(.secondary) }
+                    ForEach(model.profiles) { profile in
+                        HStack {
+                            Button(profile.name) { model.loadProfile(profile) }.buttonStyle(.plain)
+                            Spacer()
+                            Button { model.deleteProfile(profile) } label: { Image(systemName: "trash") }.buttonStyle(.borderless)
+                        }
+                    }
+                    Button { showProfileSheet = true } label: { Label("Сохранить текущие данные как профиль", systemImage: "person.crop.circle.badge.plus") }
+                }
+                Section("Состав листинга") {
+                    Toggle("Включать документацию (.md, .txt)", isOn: $model.configuration.includeDocumentation)
+                    Toggle("Включать конфигурации (.json, .yaml, .xml…)", isOn: $model.configuration.includeConfigurationFiles)
+                    Toggle("Включать пустые файлы", isOn: $model.configuration.includeEmptyFiles)
+                    Toggle("Логический порядок файлов", isOn: $model.configuration.logicalOrder)
+                    Toggle("Нумерация страниц", isOn: $model.configuration.pageNumbers)
+                    Stepper("Шрифт: \(Int(model.configuration.fontSize)) pt", value: $model.configuration.fontSize, in: 8...14, step: 1)
+                    Stepper("Разделитель: \(model.configuration.separatorWidth) символов", value: $model.configuration.separatorWidth, in: 40...120, step: 10)
+                    Stepper("Контрольный лимит: \(model.configuration.outputSizeLimitMB) МБ", value: $model.configuration.outputSizeLimitMB, in: 1...50)
+                }
                 Section("Экспорт") {
                     Button { model.exportRTF() } label: { Label("Сформировать RTF", systemImage: "doc.text") }.disabled(model.report.files.isEmpty)
-                    Text("Courier New 10 pt · RTF · сквозная нумерация страниц").font(.caption)
+                    Text("Courier New · RTF · Unicode-дерево · сквозная нумерация страниц").font(.caption)
                 }
-            }.formStyle(.grouped).navigationSplitViewColumnWidth(min: 350, ideal: 390, max: 460)
+            }.formStyle(.grouped).navigationSplitViewColumnWidth(min: 360, ideal: 400, max: 480)
         } detail: { DetailView() }
+        .sheet(isPresented: $showProfileSheet) {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Новый профиль").font(.title2.bold())
+                TextField("Название профиля", text: $newProfileName)
+                HStack {
+                    Spacer()
+                    Button("Отмена") { showProfileSheet = false }
+                    Button("Сохранить") { model.saveProfile(named: newProfileName); newProfileName = ""; showProfileSheet = false }.keyboardShortcut(.defaultAction).disabled(newProfileName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }.padding(24).frame(width: 420)
+        }
         .alert("Ошибка", isPresented: Binding(get: { model.errorMessage != nil }, set: { if !$0 { model.errorMessage = nil } })) { Button("OK") { model.errorMessage = nil } } message: { Text(model.errorMessage ?? "") }
     }
 }
@@ -50,7 +85,10 @@ private struct DetailView: View {
             GroupBox("SHA-256 исходного набора") { Text(model.report.sha256.isEmpty ? "Будет рассчитана после сканирования" : model.report.sha256).font(.system(.caption, design: .monospaced)).textSelection(.enabled).padding(6) }
             Text("Файлы в логическом порядке").font(.headline)
             List(model.report.files) { file in
-                VStack(alignment: .leading, spacing: 3) { Text(file.relativePath).font(.system(.body, design: .monospaced)); Text("\(file.language) · \(file.lineCount) строк · \(file.size) байт").font(.caption).foregroundStyle(.secondary) }.padding(.vertical, 3)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(file.relativePath).font(.system(.body, design: .monospaced))
+                    Text("\(file.language) · \(file.lineCount) строк · \(file.size) байт").font(.caption).foregroundStyle(.secondary)
+                }.padding(.vertical, 3)
             }
         }.padding(24)
     }
