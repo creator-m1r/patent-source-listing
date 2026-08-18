@@ -4,6 +4,8 @@ struct ContentView: View {
     @EnvironmentObject private var model: ListingViewModel
     @State private var newProfileName = ""
     @State private var showProfileSheet = false
+    @State private var showTree = true
+    @State private var showValidation = false
 
     var body: some View {
         NavigationSplitView {
@@ -48,12 +50,15 @@ struct ContentView: View {
                     Stepper("Разделитель: \(model.configuration.separatorWidth) символов", value: $model.configuration.separatorWidth, in: 40...120, step: 10)
                     Stepper("Контрольный лимит: \(model.configuration.outputSizeLimitMB) МБ", value: $model.configuration.outputSizeLimitMB, in: 1...50)
                 }
+                Section("Проверка") {
+                    Button { showValidation = true } label: { Label("Проверить листинг", systemImage: "checkmark.shield") }
+                }
                 Section("Экспорт") {
                     Button { model.exportRTF() } label: { Label("Сформировать RTF", systemImage: "doc.text") }.disabled(model.report.files.isEmpty)
                     Text("Courier New · RTF · Unicode-дерево · сквозная нумерация страниц").font(.caption)
                 }
             }.formStyle(.grouped).navigationSplitViewColumnWidth(min: 360, ideal: 400, max: 480)
-        } detail: { DetailView() }
+        } detail: { DetailView(showTree: $showTree) }
         .sheet(isPresented: $showProfileSheet) {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Новый профиль").font(.title2.bold())
@@ -65,16 +70,24 @@ struct ContentView: View {
                 }
             }.padding(24).frame(width: 420)
         }
+        .sheet(isPresented: $showValidation) { ValidationView() }
         .alert("Ошибка", isPresented: Binding(get: { model.errorMessage != nil }, set: { if !$0 { model.errorMessage = nil } })) { Button("OK") { model.errorMessage = nil } } message: { Text(model.errorMessage ?? "") }
     }
 }
 
 private struct DetailView: View {
     @EnvironmentObject private var model: ListingViewModel
+    @Binding var showTree: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Листинг исходного текста").font(.largeTitle.bold())
-            Text("Подготовка материалов проекта для передачи патентной организации").foregroundStyle(.secondary)
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Листинг исходного текста").font(.largeTitle.bold())
+                    Text("Подготовка материалов проекта для передачи патентной организации").foregroundStyle(.secondary)
+                }
+                Spacer()
+                Toggle("Дерево", isOn: $showTree).toggleStyle(.switch)
+            }
             HStack {
                 Metric(title: "Файлов", value: "\(model.report.files.count)")
                 Metric(title: "Строк", value: "\(model.report.totalLines)")
@@ -82,6 +95,11 @@ private struct DetailView: View {
                 Metric(title: "Игнорировано", value: "\(model.report.ignoredCount)")
             }
             GroupBox("Статус") { HStack { if model.isScanning { ProgressView() } else { Image(systemName: "checkmark.circle") }; Text(model.status).frame(maxWidth: .infinity, alignment: .leading) }.padding(6) }
+            if showTree && !model.report.files.isEmpty {
+                GroupBox("Древовидная структура") {
+                    ScrollView { Text(TreeBuilder.build(from: model.report.files)).font(.system(.caption, design: .monospaced)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading).padding(8) }
+                }.frame(maxHeight: 260)
+            }
             GroupBox("SHA-256 исходного набора") { Text(model.report.sha256.isEmpty ? "Будет рассчитана после сканирования" : model.report.sha256).font(.system(.caption, design: .monospaced)).textSelection(.enabled).padding(6) }
             Text("Файлы в логическом порядке").font(.headline)
             List(model.report.files) { file in
@@ -91,6 +109,33 @@ private struct DetailView: View {
                 }.padding(.vertical, 3)
             }
         }.padding(24)
+    }
+}
+
+private struct ValidationView: View {
+    @EnvironmentObject private var model: ListingViewModel
+    private var checks: [(String, Bool)] {
+        [
+            ("Корневая папка выбрана", model.selectedFolder != nil),
+            ("Название программы заполнено", !model.metadata.programName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
+            ("Автор заполнен", !model.metadata.author.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
+            ("Правообладатель заполнен", !model.metadata.copyrightHolder.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
+            ("Организация заполнена", !model.metadata.organization.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
+            ("Дерево проекта сформировано", !model.report.files.isEmpty),
+            ("Относительные пути присутствуют", !model.report.files.contains { $0.relativePath.isEmpty }),
+            ("SHA-256 рассчитан", !model.report.sha256.isEmpty)
+        ]
+    }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Проверка листинга").font(.title2.bold())
+            ForEach(Array(checks.enumerated()), id: \.offset) { _, item in
+                Label(item.0, systemImage: item.1 ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+            }
+            Divider()
+            Text("Проверка является технической и не заменяет юридическую проверку комплекта документов.").font(.caption).foregroundStyle(.secondary)
+            HStack { Spacer(); Button("Закрыть") { NSApp.keyWindow?.close() } }
+        }.padding(24).frame(width: 520)
     }
 }
 
