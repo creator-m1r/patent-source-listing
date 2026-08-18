@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProgramMetadata {
+struct ProgramMetadata: Codable {
     var programName = ""
     var projectName = ""
     var version = ""
@@ -30,6 +30,8 @@ struct SourceFile: Identifiable {
     let size: Int64
     let lineCount: Int
     let content: String
+    let isDocumentation: Bool
+    let isConfiguration: Bool
 }
 
 struct ScanReport {
