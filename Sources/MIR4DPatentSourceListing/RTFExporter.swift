@@ -2,10 +2,7 @@ import Foundation
 import AppKit
 
 final class RTFExporter {
-    private let fontName = "Courier New"
-    private let fontSize: CGFloat = 10
-
-    func export(metadata: ProgramMetadata, report: ScanReport, to url: URL) throws {
+    func export(metadata: ProgramMetadata, report: ScanReport, configuration: ListingConfiguration, to url: URL) throws {
         let text = NSMutableAttributedString()
         line(&text, "ЛИСТИНГ ИСХОДНОГО ТЕКСТА ПРОГРАММЫ")
         line(&text, "Подготовлено MIR4D Patent Source Listing")
@@ -23,13 +20,16 @@ final class RTFExporter {
         section(&text, "ПЕРЕЧЕНЬ ИСХОДНЫХ ФАЙЛОВ")
         for (i, f) in report.files.enumerated() { line(&text, String(format: "%03d  %@  —  %@", i + 1, f.relativePath, f.language)) }
         for (i, f) in report.files.enumerated() {
-            line(&text, String(repeating: "=", count: 80)); line(&text, "ФАЙЛ № \(String(format: "%03d", i + 1))"); line(&text, "ФАЙЛ: \(f.relativePath)"); line(&text, "ЯЗЫК ПРОГРАММИРОВАНИЯ: \(f.language)"); line(&text, String(repeating: "=", count: 80)); line(&text, f.content); line(&text, "")
+            line(&text, String(repeating: "=", count: max(20, configuration.separatorWidth)))
+            line(&text, "ФАЙЛ № \(String(format: "%03d", i + 1))"); line(&text, "ФАЙЛ: \(f.relativePath)"); line(&text, "ЯЗЫК ПРОГРАММИРОВАНИЯ: \(f.language)")
+            line(&text, String(repeating: "=", count: max(20, configuration.separatorWidth))); line(&text, f.content); line(&text, "")
         }
         let range = NSRange(location: 0, length: text.length)
-        text.addAttribute(.font, value: NSFont(name: fontName, size: fontSize) ?? NSFont.monospacedSystemFont(ofSize: fontSize, weight: .regular), range: range)
+        let font = NSFont(name: configuration.fontName, size: configuration.fontSize) ?? NSFont.monospacedSystemFont(ofSize: configuration.fontSize, weight: .regular)
+        text.addAttribute(.font, value: font, range: range)
         text.addAttribute(.foregroundColor, value: NSColor.black, range: range)
         var data = try text.data(from: range, documentAttributes: [.documentType: NSAttributedString.DocumentType.rtf, .characterEncoding: String.Encoding.utf8.rawValue])
-        if var rtf = String(data: data, encoding: .utf8), let marker = rtf.range(of: "\\pard") {
+        if configuration.pageNumbers, var rtf = String(data: data, encoding: .utf8), let marker = rtf.range(of: "\\pard") {
             let footer = #"\footer\pard\qc\f0\fs20 Страница {\field{\*\fldinst PAGE}{\fldrslt 1}}\par"#
             rtf.insert(contentsOf: footer, at: marker.lowerBound)
             data = Data(rtf.utf8)
@@ -47,12 +47,14 @@ enum TreeBuilder {
         let root = Node()
         for f in files { var n = root; for p in f.relativePath.split(separator: "/").map(String.init) { n.children[p] = n.children[p] ?? Node(); n = n.children[p]! }; n.file = true }
         var lines: [String] = []
-        for (i, name) in root.children.keys.sorted().enumerated() { render(root.children[name]!, name, "", i == root.children.count - 1, &lines) }
+        let names = root.children.keys.sorted()
+        for (i, name) in names.enumerated() { render(root.children[name]!, name, "", i == names.count - 1, &lines) }
         return lines.joined(separator: "\n")
     }
     private static func render(_ n: Node, _ name: String, _ prefix: String, _ last: Bool, _ lines: inout [String]) {
         lines.append(prefix + (last ? "└── " : "├── ") + name + (n.file ? "" : "/"))
         let p = prefix + (last ? "    " : "│   ")
-        for (i, child) in n.children.keys.sorted().enumerated() { render(n.children[child]!, child, p, i == n.children.count - 1, &lines) }
+        let children = n.children.keys.sorted()
+        for (i, child) in children.enumerated() { render(n.children[child]!, child, p, i == children.count - 1, &lines) }
     }
 }
