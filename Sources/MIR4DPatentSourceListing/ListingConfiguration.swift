@@ -7,6 +7,7 @@ struct ListingConfiguration: Codable {
     var includeDocumentation: Bool = false
     var includeConfigurationFiles: Bool = false
     var includeEmptyFiles: Bool = true
+    var removeComments: Bool = false
     var fontName: String = "Courier New"
     var fontSize: Double = 10
     var separatorWidth: Int = 80
