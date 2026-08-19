@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var showProfileSheet = false
     @State private var showTree = true
     @State private var showValidation = false
+    @State private var showRestoreReport = false
 
     var body: some View {
         NavigationSplitView {
@@ -14,6 +15,11 @@ struct ContentView: View {
                     Button { model.chooseFolder() } label: { Label("Выбрать папку проекта", systemImage: "folder") }
                     if let folder = model.selectedFolder { Text(folder.path).font(.caption).textSelection(.enabled) }
                     Button { model.scan() } label: { Label("Сканировать проект", systemImage: "arrow.triangle.2.circlepath") }.disabled(model.selectedFolder == nil || model.isScanning)
+                    Button { model.restoreFromDiff() } label: { Label("Восстановить проект из diff…", systemImage: "arrow.down.doc") }
+                    Text("Создает новую папку проекта, каталоги и новые файлы, описанные в Git/unified diff. Изменения существующих файлов применяются к уже имеющейся папке.").font(.caption).foregroundStyle(.secondary)
+                    if model.restoreReport != nil {
+                        Button { showRestoreReport = true } label: { Label("Показать отчет восстановления", systemImage: "doc.plaintext") }
+                    }
                 }
                 Section("Сведения о программе") {
                     TextField("Название программы", text: $model.metadata.programName)
@@ -62,6 +68,7 @@ struct ContentView: View {
             }.padding(24).frame(width: 420)
         }
         .sheet(isPresented: $showValidation) { ValidationView() }
+        .sheet(isPresented: $showRestoreReport) { RestoreReportView() }
         .alert("Ошибка", isPresented: Binding(get: { model.errorMessage != nil }, set: { if !$0 { model.errorMessage = nil } })) { Button("OK") { model.errorMessage = nil } } message: { Text(model.errorMessage ?? "") }
     }
 }
@@ -86,23 +93,24 @@ private struct DetailView: View {
 private struct ValidationView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var model: ListingViewModel
-    private var checks: [(String, Bool)] { [
-        ("Корневая папка выбрана", model.selectedFolder != nil),
-        ("Название программы заполнено", !model.metadata.programName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
-        ("Автор заполнен", !model.metadata.author.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
-        ("Правообладатель заполнен", !model.metadata.copyrightHolder.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
-        ("Организация заполнена", !model.metadata.organization.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty),
-        ("Дерево проекта сформировано", !model.report.files.isEmpty),
-        ("Относительные пути присутствуют", !model.report.files.contains { $0.relativePath.isEmpty }),
-        ("SHA-256 рассчитан", !model.report.sha256.isEmpty)
-    ] }
+    private var checks: [(String, Bool)] { [("Корневая папка выбрана", model.selectedFolder != nil), ("Название программы заполнено", !model.metadata.programName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty), ("Автор заполнен", !model.metadata.author.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty), ("Правообладатель заполнен", !model.metadata.copyrightHolder.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty), ("Организация заполнена", !model.metadata.organization.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty), ("Дерево проекта сформировано", !model.report.files.isEmpty), ("Относительные пути присутствуют", !model.report.files.contains { $0.relativePath.isEmpty }), ("SHA-256 рассчитан", !model.report.sha256.isEmpty)] }
+    var body: some View { VStack(alignment: .leading, spacing: 12) { Text("Проверка листинга").font(.title2.bold()); ForEach(Array(checks.enumerated()), id: \.offset) { _, item in Label(item.0, systemImage: item.1 ? "checkmark.circle.fill" : "exclamationmark.triangle.fill") }; Divider(); Text("Проверка является технической и не заменяет юридическую проверку комплекта документов.").font(.caption).foregroundStyle(.secondary); HStack { Spacer(); Button("Закрыть") { dismiss() } } }.padding(24).frame(width: 520) }
+}
+
+private struct RestoreReportView: View {
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var model: ListingViewModel
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Проверка листинга").font(.title2.bold())
-            ForEach(Array(checks.enumerated()), id: \.offset) { _, item in Label(item.0, systemImage: item.1 ? "checkmark.circle.fill" : "exclamationmark.triangle.fill") }
-            Divider(); Text("Проверка является технической и не заменяет юридическую проверку комплекта документов.").font(.caption).foregroundStyle(.secondary)
+            Text("Отчет восстановления проекта").font(.title2.bold())
+            if let report = model.restoreReport {
+                Text(report.summary).font(.headline)
+                GroupBox("Созданные файлы") { ScrollView { Text(report.createdFiles.joined(separator: "\n")).font(.system(.caption, design: .monospaced)).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 180) }
+                GroupBox("Обновленные файлы") { ScrollView { Text(report.updatedFiles.joined(separator: "\n")).font(.system(.caption, design: .monospaced)).frame(maxWidth: .infinity, alignment: .leading) }.frame(maxHeight: 120) }
+                if !report.warnings.isEmpty { GroupBox("Предупреждения") { Text(report.warnings.joined(separator: "\n")).font(.caption).foregroundStyle(.orange) } }
+            }
             HStack { Spacer(); Button("Закрыть") { dismiss() } }
-        }.padding(24).frame(width: 520)
+        }.padding(24).frame(width: 620)
     }
 }
 
