@@ -57,8 +57,9 @@ final class DiffProjectAnalyzer {
                     i += 1
                     while i < lines.count && !lines[i].hasPrefix("@@") && !lines[i].hasPrefix("diff --git ") {
                         let body = lines[i]
-                        if body.first == "+" && !body.hasPrefix("+++") { additions += 1 }
-                        if body.first == "-" && !body.hasPrefix("---") { deletions += 1 }
+                        // Inside a hunk the first character is authoritative; a source line may itself begin with +++ or ---.
+                        if body.first == "+" { additions += 1 }
+                        if body.first == "-" { deletions += 1 }
                         i += 1
                     }
                     continue
