@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "MIR4DPatentSourceListing",
-    platforms: [.macOS(.14)],
+    platforms: [.macOS(.v14)],
     products: [
         .executable(name: "MIR4DPatentSourceListing", targets: ["MIR4DPatentSourceListing"])
     ],

@@ -1,0 +1,896 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.xctest/Contents/MacOS/MIR4DPatentSourceListingPackageTests",
+      "packagePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing",
+      "productName" : "MIR4DPatentSourceListingPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.MIR4DPatentSourceListing-arm64-apple-macosx15.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/sources",
+      "importPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/CommentCleaner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectAnalyzer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectReconstructor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingConfiguration.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingProfile.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/MIR4DPatentSourceListingApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/Models.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ProjectScanner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/RTFExporter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "MIR4DPatentSourceListing",
+      "moduleOutputPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules/MIR4DPatentSourceListing.swiftmodule",
+      "objects" : [
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/CommentCleaner.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ContentView.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectAnalyzer.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectReconstructor.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingConfiguration.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingProfile.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingViewModel.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/MIR4DPatentSourceListingApp.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/Models.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ProjectScanner.swift.o",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/RTFExporter.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "MIR4DPatentSourceListing_main",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "patent_source_listing"
+      ],
+      "outputFileMapPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/CommentCleaner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectAnalyzer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectReconstructor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingConfiguration.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingProfile.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingViewModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/MIR4DPatentSourceListingApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/Models.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ProjectScanner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/RTFExporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules/MIR4DPatentSourceListing.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/CommentCleaner.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ContentView.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectAnalyzer.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectReconstructor.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingConfiguration.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingProfile.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingViewModel.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/MIR4DPatentSourceListingApp.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/Models.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ProjectScanner.swift",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/RTFExporter.swift"
+      ],
+      "tempsPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.MIR4DPatentSourceListingPackageTests-arm64-apple-macosx15.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/sources",
+      "importPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules/MIR4DPatentSourceListingTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "MIR4DPatentSourceListingPackageTests",
+      "moduleOutputPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules/MIR4DPatentSourceListingPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/include/MIR4DPatentSourceListingPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "patent_source_listing"
+      ],
+      "outputFileMapPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules/MIR4DPatentSourceListingPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.MIR4DPatentSourceListingTests-arm64-apple-macosx15.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/sources",
+      "importPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Tests/MIR4DPatentSourceListingTests/PatentSourceListingTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "MIR4DPatentSourceListingTests",
+      "moduleOutputPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules/MIR4DPatentSourceListingTests.swiftmodule",
+      "objects" : [
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j14",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "patent_source_listing"
+      ],
+      "outputFileMapPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules/MIR4DPatentSourceListingTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/sergejstepovoj/Desktop/patent-source-listing/Tests/MIR4DPatentSourceListingTests/PatentSourceListingTests.swift"
+      ],
+      "tempsPath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "MIR4DPatentSourceListing" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MIR4DPatentSourceListing",
+      "-package-name",
+      "patent_source_listing",
+      "-c",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/CommentCleaner.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ContentView.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectAnalyzer.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectReconstructor.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingConfiguration.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingProfile.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingViewModel.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/MIR4DPatentSourceListingApp.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/Models.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ProjectScanner.swift",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/RTFExporter.swift",
+      "-I",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j14",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "MIR4DPatentSourceListing_main",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "patent_source_listing",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "MIR4DPatentSourceListingPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MIR4DPatentSourceListingPackageTests",
+      "-package-name",
+      "patent_source_listing",
+      "-c",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j14",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/include/MIR4DPatentSourceListingPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "patent_source_listing",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "MIR4DPatentSourceListingTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "MIR4DPatentSourceListingTests",
+      "-package-name",
+      "patent_source_listing",
+      "-c",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/Tests/MIR4DPatentSourceListingTests/PatentSourceListingTests.swift",
+      "-I",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j14",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "patent_source_listing",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "MIR4DPatentSourceListing" : [
+
+    ],
+    "MIR4DPatentSourceListingPackageTests" : [
+      "MIR4DPatentSourceListingTests",
+      "MIR4DPatentSourceListing"
+    ],
+    "MIR4DPatentSourceListingTests" : [
+      "MIR4DPatentSourceListing"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing-entitlement.plist" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<entitlement-plist>"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<com.apple.security.get-task-allow>"
+        }
+      ],
+      "outputFilePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing-entitlement.plist"
+    },
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/CommentCleaner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectAnalyzer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/DiffProjectReconstructor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingConfiguration.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingProfile.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ListingViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/MIR4DPatentSourceListingApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/Models.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/ProjectScanner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Sources/MIR4DPatentSourceListing/RTFExporter.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/sources"
+    },
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/CommentCleaner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectAnalyzer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectReconstructor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingConfiguration.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingProfile.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingViewModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/MIR4DPatentSourceListingApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/Models.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ProjectScanner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/RTFExporter.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.product/Objects.LinkFileList"
+    },
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/sources"
+    },
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/CommentCleaner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectAnalyzer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/DiffProjectReconstructor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingConfiguration.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingProfile.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ListingViewModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/MIR4DPatentSourceListingApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/Models.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/ProjectScanner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListing.build/RTFExporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/sergejstepovoj/Desktop/patent-source-listing/Tests/MIR4DPatentSourceListingTests/PatentSourceListingTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/sources"
+    },
+    "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

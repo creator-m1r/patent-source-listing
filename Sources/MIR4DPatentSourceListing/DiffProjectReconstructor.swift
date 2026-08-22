@@ -148,7 +148,8 @@ final class DiffProjectReconstructor {
             let raw = s.dropFirst(); let q = raw.split(separator: ",", maxSplits: 1)
             return (Int(q.first ?? "0") ?? 0, q.count > 1 ? Int(q[1]) ?? 1 : 1)
         }
-        let old = parse(p[0]); let new = parse(p[1])
+        let old = parse(p[0]) ?? (0, 0)
+        let new = parse(p[1]) ?? (0, 0)
         return (old.0, old.1, new.0, new.1)
     }
 

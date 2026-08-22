@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/master.swiftdeps"
+  },
+  "/Users/sergejstepovoj/Desktop/patent-source-listing/Tests/MIR4DPatentSourceListingTests/PatentSourceListingTests.swift": {
+    "dependencies": "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests.d",
+    "object": "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests.swift.o",
+    "swiftmodule": "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests.swiftdeps",
+    "diagnostics": "/Users/sergejstepovoj/Desktop/patent-source-listing/.build/arm64-apple-macosx/debug/MIR4DPatentSourceListingTests.build/PatentSourceListingTests.dia"
+  }
+}

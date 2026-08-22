@@ -30,8 +30,9 @@ final class PatentSourceListingTests: XCTestCase {
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
-        let source = """\n        import Foundation
-        
+        let source = """
+        import Foundation
+
         namespace mir {
             let text = \"{привет} \\\\ путь\"
             // комментарий
