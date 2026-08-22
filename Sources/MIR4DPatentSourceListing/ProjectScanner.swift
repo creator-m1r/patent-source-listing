@@ -3,7 +3,7 @@ import CryptoKit
 
 final class ProjectScanner {
     private let languages: [String: String] = [
-        "swift":"Swift", "m":"Objective-C", "mm":"Objective-C++", "cpp":"C++", "cc":"C++", "cxx":"C++", "hpp":"C++", "h":"C/C++ Header", "c":"C", "cs":"C#", "java":"Java", "kt":"Kotlin", "py":"Python", "js":"JavaScript", "jsx":"JavaScript/JSX", "ts":"TypeScript", "tsx":"TypeScript/TSX", "go":"Go", "rs":"Rust", "php":"PHP", "rb":"Ruby", "dart":"Dart", "scala":"Scala", "sql":"SQL", "sh":"Shell", "bash":"Shell", "zsh":"Shell", "fish":"Shell", "html":"HTML", "htm":"HTML", "css":"CSS", "scss":"SCSS", "xml":"XML", "json":"JSON", "yaml":"YAML", "yml":"YAML", "toml":"TOML", "ini":"INI", "conf":"Configuration", "cmake":"CMake", "md":"Markdown", "txt":"Text"
+        "swift": "Swift", "m": "Objective-C", "mm": "Objective-C++", "cpp": "C++", "cc": "C++", "cxx": "C++", "hpp": "C++", "h": "C/C++ Header", "c": "C", "cs": "C#", "java": "Java", "kt": "Kotlin", "py": "Python", "js": "JavaScript", "jsx": "JavaScript/JSX", "ts": "TypeScript", "tsx": "TypeScript/TSX", "go": "Go", "rs": "Rust", "php": "PHP", "rb": "Ruby", "dart": "Dart", "scala": "Scala", "sql": "SQL", "sh": "Shell", "bash": "Shell", "zsh": "Shell", "fish": "Shell", "html": "HTML", "htm": "HTML", "css": "CSS", "scss": "SCSS", "xml": "XML", "json": "JSON", "yaml": "YAML", "yml": "YAML", "toml": "TOML", "ini": "INI", "conf": "Configuration", "cmake": "CMake", "md": "Markdown", "txt": "Text"
     ]
 
     private let documentationExtensions: Set<String> = ["md", "txt"]
@@ -12,25 +12,30 @@ final class ProjectScanner {
     func scan(root: URL, configuration: ListingConfiguration) throws -> ScanReport {
         let excluded = configuration.excludedDirectories
         let keys: [URLResourceKey] = [.isDirectoryKey, .isRegularFileKey, .fileSizeKey]
-        guard let e = FileManager.default.enumerator(at: root, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles], errorHandler: { _, _ in true }) else {
+        guard let enumerator = FileManager.default.enumerator(
+            at: root,
+            includingPropertiesForKeys: keys,
+            options: [.skipsHiddenFiles],
+            errorHandler: { _, _ in true }
+        ) else {
             throw ScannerError.noFolder
         }
 
         var files: [SourceFile] = []
         var ignored = 0
 
-        for case let url as URL in e {
+        for case let url as URL in enumerator {
             let relative = url.path.replacingOccurrences(of: root.path + "/", with: "")
             let parts = relative.split(separator: "/").map(String.init)
 
             if parts.dropLast().contains(where: excluded.contains) {
-                if url.hasDirectoryPath { e.skipDescendants() }
+                if url.hasDirectoryPath { enumerator.skipDescendants() }
                 ignored += 1
                 continue
             }
 
             if url.hasDirectoryPath {
-                if excluded.contains(url.lastPathComponent) { e.skipDescendants() }
+                if excluded.contains(url.lastPathComponent) { enumerator.skipDescendants() }
                 continue
             }
 
@@ -46,8 +51,14 @@ final class ProjectScanner {
             if isConfiguration && !configuration.includeConfigurationFiles { ignored += 1; continue }
             if !configuration.includeExtensions.isEmpty && !configuration.includeExtensions.contains(ext) { ignored += 1; continue }
 
-            guard let data = try? Data(contentsOf: url),
-                  let content = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .utf16) else {
+            guard let data = try? Data(contentsOf: url) else {
+                ignored += 1
+                continue
+            }
+
+            // Для патентного листинга принимаем только UTF-8/UTF-16 текст.
+            // Содержимое не нормализуем и не меняем: это важно для проверки соответствия.
+            guard let content = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .utf16) else {
                 ignored += 1
                 continue
             }
@@ -55,6 +66,7 @@ final class ProjectScanner {
             let lineCount = content.isEmpty ? 0 : content.split(separator: "\n", omittingEmptySubsequences: false).count
             if lineCount == 0 && !configuration.includeEmptyFiles { ignored += 1; continue }
 
+            let fileHash = sha256(data: Data(content.utf8))
             files.append(SourceFile(
                 relativePath: relative,
                 absoluteURL: url,
@@ -64,18 +76,25 @@ final class ProjectScanner {
                 lineCount: lineCount,
                 content: content,
                 isDocumentation: isDocumentation,
-                isConfiguration: isConfiguration
+                isConfiguration: isConfiguration,
+                sha256: fileHash
             ))
         }
 
         if configuration.logicalOrder {
-            files.sort { priority($0.relativePath) == priority($1.relativePath) ? $0.relativePath.localizedStandardCompare($1.relativePath) == .orderedAscending : priority($0.relativePath) < priority($1.relativePath) }
+            files.sort {
+                let lhs = priority($0.relativePath)
+                let rhs = priority($1.relativePath)
+                return lhs == rhs
+                    ? $0.relativePath.localizedStandardCompare($1.relativePath) == .orderedAscending
+                    : lhs < rhs
+            }
         } else {
             files.sort { $0.relativePath.localizedStandardCompare($1.relativePath) == .orderedAscending }
         }
 
-        let canonical = files.map { "\($0.relativePath)\n\($0.language)\n\($0.content)\n" }.joined(separator: "\n")
-        let hash = SHA256.hash(data: Data(canonical.utf8)).map { String(format: "%02x", $0) }.joined()
+        let canonical = files.map { "\($0.relativePath)\n\($0.language)\n\($0.sha256)\n" }.joined(separator: "\n")
+        let hash = sha256(data: Data(canonical.utf8))
 
         return ScanReport(
             rootPath: root.path,
@@ -85,6 +104,10 @@ final class ProjectScanner {
             totalLines: files.reduce(0) { $0 + $1.lineCount },
             sha256: hash
         )
+    }
+
+    private func sha256(data: Data) -> String {
+        SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
     }
 
     private func priority(_ path: String) -> Int {
