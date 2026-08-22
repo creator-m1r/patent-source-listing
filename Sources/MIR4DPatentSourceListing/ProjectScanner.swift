@@ -11,7 +11,7 @@ final class ProjectScanner {
 
     func scan(root: URL, configuration: ListingConfiguration) throws -> ScanReport {
         let excluded = configuration.excludedDirectories
-        let keys: [URLResourceKey] = [.isDirectoryKey, .isRegularFileKey, .fileSizeKey]
+        let keys: [URLResourceKey] = [.isDirectoryKey, .isRegularFileKey]
         guard let enumerator = FileManager.default.enumerator(
             at: root,
             includingPropertiesForKeys: keys,
@@ -25,7 +25,7 @@ final class ProjectScanner {
         var ignored = 0
 
         for case let url as URL in enumerator {
-            let relative = url.path.replacingOccurrences(of: root.path + "/", with: "")
+            let relative = relativePath(of: url, to: root)
             let parts = relative.split(separator: "/").map(String.init)
 
             if parts.dropLast().contains(where: excluded.contains) {
@@ -40,10 +40,16 @@ final class ProjectScanner {
             }
 
             guard let values = try? url.resourceValues(forKeys: Set(keys)), values.isRegularFile == true else { continue }
-            guard !configuration.excludedFileNames.contains(url.lastPathComponent) else { ignored += 1; continue }
+            guard !configuration.excludedFileNames.contains(url.lastPathComponent) else {
+                ignored += 1
+                continue
+            }
 
             let ext = url.pathExtension.lowercased()
-            guard let language = languages[ext] else { ignored += 1; continue }
+            guard let language = languages[ext] else {
+                ignored += 1
+                continue
+            }
 
             let isDocumentation = documentationExtensions.contains(ext)
             let isConfiguration = configurationExtensions.contains(ext)
@@ -56,28 +62,31 @@ final class ProjectScanner {
                 continue
             }
 
-            // Для патентного листинга принимаем только UTF-8/UTF-16 текст.
-            // Содержимое не нормализуем и не меняем: это важно для проверки соответствия.
-            guard let content = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .utf16) else {
+            guard let decoded = decodeText(data) else {
                 ignored += 1
                 continue
             }
 
+            let content = decoded.text
             let lineCount = content.isEmpty ? 0 : content.split(separator: "\n", omittingEmptySubsequences: false).count
-            if lineCount == 0 && !configuration.includeEmptyFiles { ignored += 1; continue }
+            if lineCount == 0 && !configuration.includeEmptyFiles {
+                ignored += 1
+                continue
+            }
 
-            let fileHash = sha256(data: Data(content.utf8))
             files.append(SourceFile(
                 relativePath: relative,
                 absoluteURL: url,
                 language: language,
                 extensionName: ext,
-                size: Int64(values.fileSize ?? data.count),
+                size: Int64(data.count),
                 lineCount: lineCount,
                 content: content,
                 isDocumentation: isDocumentation,
                 isConfiguration: isConfiguration,
-                sha256: fileHash
+                sha256: sha256(data: Data(content.utf8)),
+                sourceDataSHA256: sha256(data: data),
+                encodingName: decoded.name
             ))
         }
 
@@ -93,8 +102,9 @@ final class ProjectScanner {
             files.sort { $0.relativePath.localizedStandardCompare($1.relativePath) == .orderedAscending }
         }
 
-        let canonical = files.map { "\($0.relativePath)\n\($0.language)\n\($0.sha256)\n" }.joined(separator: "\n")
-        let hash = sha256(data: Data(canonical.utf8))
+        let canonical = files.map {
+            "\($0.relativePath)\n\($0.language)\n\($0.sourceDataSHA256)\n"
+        }.joined(separator: "\n")
 
         return ScanReport(
             rootPath: root.path,
@@ -102,8 +112,32 @@ final class ProjectScanner {
             ignoredCount: ignored,
             totalBytes: files.reduce(0) { $0 + $1.size },
             totalLines: files.reduce(0) { $0 + $1.lineCount },
-            sha256: hash
+            sha256: sha256(data: Data(canonical.utf8))
         )
+    }
+
+    private func relativePath(of url: URL, to root: URL) -> String {
+        let rootPath = root.standardizedFileURL.path
+        let path = url.standardizedFileURL.path
+        if path == rootPath { return url.lastPathComponent }
+        let prefix = rootPath.hasSuffix("/") ? rootPath : rootPath + "/"
+        return path.hasPrefix(prefix) ? String(path.dropFirst(prefix.count)) : url.lastPathComponent
+    }
+
+    private func decodeText(_ data: Data) -> (text: String, name: String)? {
+        if data.starts(with: [0xEF, 0xBB, 0xBF]), let text = String(data: data, encoding: .utf8) {
+            return (text, "UTF-8 с BOM")
+        }
+        if data.starts(with: [0xFF, 0xFE]), let text = String(data: data, encoding: .utf16LittleEndian) {
+            return (text, "UTF-16 LE")
+        }
+        if data.starts(with: [0xFE, 0xFF]), let text = String(data: data, encoding: .utf16BigEndian) {
+            return (text, "UTF-16 BE")
+        }
+        if let text = String(data: data, encoding: .utf8) {
+            return (text, "UTF-8")
+        }
+        return nil
     }
 
     private func sha256(data: Data) -> String {
