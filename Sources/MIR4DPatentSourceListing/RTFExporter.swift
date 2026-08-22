@@ -35,50 +35,41 @@ final class RTFExporter {
 
     func export(metadata: ProgramMetadata, report: ScanReport, configuration: ListingConfiguration, to url: URL) throws {
         guard !report.files.isEmpty else { throw RTFExportError.emptySourceSet }
-
         let rtf = makeRTF(metadata: metadata, report: report, configuration: configuration)
         let data = Data(rtf.utf8)
         let limit = max(1, configuration.outputSizeLimitBytes)
-
-        if data.count > limit {
-            throw RTFExportError.sizeLimitExceeded(actual: data.count, limit: limit)
-        }
-
+        if data.count > limit { throw RTFExportError.sizeLimitExceeded(actual: data.count, limit: limit) }
         let verification = verifyRTF(data: data, report: report, configuration: configuration)
-        if !verification.isValid {
-            throw RTFExportError.roundTripMismatch(path: verification.errors.first ?? "неизвестный файл")
-        }
-
+        if !verification.isValid { throw RTFExportError.roundTripMismatch(path: verification.errors.first ?? "неизвестный файл") }
         try data.write(to: url, options: .atomic)
     }
 
     private func makeRTF(metadata: ProgramMetadata, report: ScanReport, configuration: ListingConfiguration) -> String {
-        var out = ""
-        out += "{\\rtf1\\ansi\\deff0"
-        out += "{\\fonttbl{\\f0\\fmodern Courier New;}}"
-        if configuration.pageNumbers {
-            out += "{\\footer\\pard\\qc\\f0\\fs20 Страница {\\field{\\*\\fldinst PAGE}{\\fldrslt 1}}\\par}"
-        }
-        out += "\\viewkind4\\uc1\\f0\\fs20\\pard\\ql "
+        var out = "{\\rtf1\\ansi\\deff0\\uc1"
+        out += "{\\fonttbl{\\f0\\fmodern \(escapeRTF(configuration.fontName));}}"
+        out += "\\viewkind4\\f0\\fs\(max(1, Int(configuration.fontSize * 2)))\\pard\\ql "
+        if configuration.pageNumbers { out += "{\\footer\\pard\\qc\\f0\\fs20 \(escapeRTF("Страница ")){\\field{\\*\\fldinst PAGE}{\\fldrslt 1}}\\par}" }
 
         appendLine(&out, "ЛИСТИНГ ИСХОДНОГО ТЕКСТА ПРОГРАММЫ")
-        appendLine(&out, metadata.programName.isEmpty ? "Программа для ЭВМ" : metadata.programName)
-        appendField(&out, "Правообладатель", metadata.copyrightHolder)
-        appendField(&out, "Автор(ы)", metadata.author)
-        appendField(&out, "Организация", metadata.organization)
-        appendLine(&out, "")
+        appendField(&out, "НАИМЕНОВАНИЕ ПРОГРАММЫ", metadata.programName.isEmpty ? "Программа для ЭВМ" : metadata.programName)
+        appendField(&out, "НАИМЕНОВАНИЕ ПРОЕКТА", metadata.projectName)
+        appendField(&out, "ПРАВООБЛАДАТЕЛЬ", metadata.copyrightHolder)
+        appendField(&out, "АВТОР(Ы)", metadata.author)
+        appendField(&out, "ОРГАНИЗАЦИЯ", metadata.organization)
+        appendField(&out, "ВЕРСИЯ ПРОГРАММЫ", metadata.version)
+        appendField(&out, "ИДЕНТИФИКАТОР ИСХОДНОГО СОСТОЯНИЯ", metadata.sourceStateIdentifier.isEmpty ? metadata.version : metadata.sourceStateIdentifier)
+        appendField(&out, "ДАТА ФОРМИРОВАНИЯ", metadata.creationDate)
+        appendField(&out, "ОЧИСТКА КОММЕНТАРИЕВ", configuration.removeComments ? "ВКЛЮЧЕНА" : "ВЫКЛЮЧЕНА")
 
         appendSection(&out, "ДРЕВОВИДНАЯ СТРУКТУРА КАТАЛОГОВ И ФАЙЛОВ")
         appendLine(&out, TreeBuilder.build(files: report.files))
-        appendLine(&out, "")
-        appendLine(&out, "Перечень и исходные тексты файлов приведены далее в том же документе.")
         out += "\\page "
 
         appendSection(&out, "СВЕДЕНИЯ О ПРОГРАММЕ")
         appendField(&out, "Название программы", metadata.programName)
         appendField(&out, "Название проекта", metadata.projectName)
         appendField(&out, "Версия программы", metadata.version)
-        appendField(&out, "Идентификатор исходного состояния", metadata.version)
+        appendField(&out, "Идентификатор исходного состояния", metadata.sourceStateIdentifier.isEmpty ? metadata.version : metadata.sourceStateIdentifier)
         appendField(&out, "Автор(ы)", metadata.author)
         appendField(&out, "Правообладатель", metadata.copyrightHolder)
         appendField(&out, "Организация", metadata.organization)
@@ -95,158 +86,116 @@ final class RTFExporter {
         appendField(&out, "Количество проигнорированных объектов", "\(report.ignoredCount)")
         appendField(&out, "Общее количество строк", "\(report.totalLines)")
         appendField(&out, "Размер исходных текстов", ByteCountFormatter.string(fromByteCount: report.totalBytes, countStyle: .file))
-        appendField(&out, "Контрольная сумма исходного набора SHA-256", report.sha256)
-        appendField(&out, "Очистка комментариев", configuration.removeComments ? "ВКЛЮЧЕНА. Текст в листинге отличается от исходных файлов только удалением распознанных комментариев." : "ВЫКЛЮЧЕНА. Текст листинга соответствует прочитанному исходному тексту.")
+        appendField(&out, "Контрольная сумма набора исходных файлов SHA-256", report.sha256)
         appendField(&out, "Лимит размера RTF", ByteCountFormatter.string(fromByteCount: Int64(configuration.outputSizeLimitBytes), countStyle: .file))
 
         appendSection(&out, "ПЕРЕЧЕНЬ ИСХОДНЫХ ФАЙЛОВ")
-        for (i, file) in report.files.enumerated() {
-            appendLine(&out, String(format: "%03d  %@  —  %@  —  SHA-256: %@", i + 1, file.relativePath, file.language, file.sha256))
-        }
+        for (i, file) in report.files.enumerated() { appendLine(&out, String(format: "%03d  %@  —  %@  —  SHA-256 текста: %@  —  SHA-256 исходных байтов: %@", i + 1, file.relativePath, file.language, file.sha256, file.sourceDataSHA256)) }
 
+        let token = UUID().uuidString.replacingOccurrences(of: "-", with: "")
         for (i, file) in report.files.enumerated() {
-            appendLine(&out, String(repeating: "=", count: max(20, configuration.separatorWidth)))
+            let separator = String(repeating: "=", count: max(20, configuration.separatorWidth))
+            appendLine(&out, separator)
             appendLine(&out, "ФАЙЛ № \(String(format: "%03d", i + 1))")
             appendLine(&out, "ФАЙЛ: \(file.relativePath)")
             appendLine(&out, "ЯЗЫК ПРОГРАММИРОВАНИЯ: \(file.language)")
-            appendLine(&out, "SHA-256 ИСХОДНОГО ФАЙЛА: \(file.sha256)")
-            appendLine(&out, String(repeating: "=", count: max(20, configuration.separatorWidth)))
+            appendLine(&out, "КОДИРОВКА ИСХОДНОГО ФАЙЛА: \(file.encodingName)")
+            appendLine(&out, "SHA-256 ИСХОДНОГО ТЕКСТА: \(file.sha256)")
+            appendLine(&out, "SHA-256 ИСХОДНЫХ БАЙТОВ: \(file.sourceDataSHA256)")
+            appendLine(&out, separator)
             let source = configuration.removeComments ? commentCleaner.clean(file.content, language: file.language).content : file.content
+            appendLine(&out, "[[M1R-НАЧАЛО-\(token)-\(i + 1)]]")
             appendRawSource(&out, source)
+            appendLine(&out, "[[M1R-КОНЕЦ-\(token)-\(i + 1)]]")
             appendLine(&out, "")
         }
-
         out += "}"
         return out
     }
 
-    private func appendSection(_ out: inout String, _ value: String) {
-        appendLine(&out, "")
-        appendLine(&out, value)
-        appendLine(&out, "")
-    }
-
-    private func appendField(_ out: inout String, _ key: String, _ value: String) {
-        appendLine(&out, "\(key): \(value)")
-    }
-
-    private func appendLine(_ out: inout String, _ value: String) {
-        out += escapeRTF(value)
-        out += "\\line "
-    }
+    private func appendSection(_ out: inout String, _ value: String) { appendLine(&out, ""); appendLine(&out, value); appendLine(&out, "") }
+    private func appendField(_ out: inout String, _ key: String, _ value: String) { appendLine(&out, "\(key): \(value)") }
+    private func appendLine(_ out: inout String, _ value: String) { out += escapeRTF(value); out += "\\line " }
 
     private func appendRawSource(_ out: inout String, _ value: String) {
-        let normalized = value.replacingOccurrences(of: "\\r\\n", with: "\\n").replacingOccurrences(of: "\\r", with: "\\n")
+        let normalized = value.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n")
         out += escapeRTF(normalized)
         if !normalized.hasSuffix("\n") { out += "\\line " }
     }
 
-    /// Безопасное RTF-экранирование. Исходные идентификаторы, пробелы и Unicode не переводятся.
     private func escapeRTF(_ value: String) -> String {
         var result = ""
         result.reserveCapacity(value.utf8.count + 32)
-        for unit in value.utf16 {
-            switch unit {
-            case 10:
-                result += "\\line "
-            case 13:
-                continue
-            case 9:
-                result += "\\tab "
-            case 92:
-                result += "\\\\"
-            case 123:
-                result += "\\{"
-            case 125:
-                result += "\\}"
-            case 32...126:
-                result.append(Character(UnicodeScalar(unit)!))
+        for scalar in value.unicodeScalars {
+            switch scalar.value {
+            case 10: result += "\\line "
+            case 13: continue
+            case 9: result += "\\tab "
+            case 92: result += "\\\\"
+            case 123: result += "\\{"
+            case 125: result += "\\}"
+            case 32...126: result.append(Character(scalar))
             default:
-                let signed = unit <= 32767 ? Int(unit) : Int(unit) - 65536
-                result += "\\u\(signed)?"
+                var value = scalar.value
+                if value > 32767 { value -= 65536 }
+                result += "\\u\(value)?"
             }
         }
         return result
     }
 
     private func verifyRTF(data: Data, report: ScanReport, configuration: ListingConfiguration) -> RTFVerificationResult {
-        guard let attributed = try? NSAttributedString(
-            data: data,
-            options: [.documentType: NSAttributedString.DocumentType.rtf],
-            documentAttributes: nil
-        ) else {
+        guard let attributed = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil) else {
             return RTFVerificationResult(checkedFiles: report.files.count, matchedFiles: 0, errors: ["RTF не удалось повторно прочитать"], rtfSize: data.count)
         }
-
         let plain = attributed.string
+        guard let token = extractToken(from: plain) else {
+            return RTFVerificationResult(checkedFiles: report.files.count, matchedFiles: 0, errors: ["В RTF отсутствуют контрольные маркеры файлов"], rtfSize: data.count)
+        }
         var errors: [String] = []
         var matched = 0
-
-        for file in report.files {
+        for (index, file) in report.files.enumerated() {
+            let begin = "[[M1R-НАЧАЛО-\(token)-\(index + 1)]]"
+            let end = "[[M1R-КОНЕЦ-\(token)-\(index + 1)]]"
+            guard let beginRange = plain.range(of: begin), let endRange = plain.range(of: end, range: beginRange.upperBound..<plain.endIndex) else { errors.append(file.relativePath); continue }
+            let extracted = String(plain[beginRange.upperBound..<endRange.lowerBound])
             let source = configuration.removeComments ? commentCleaner.clean(file.content, language: file.language).content : file.content
-            let normalizedSource = source.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n")
-            let marker = "ФАЙЛ: \(file.relativePath)"
-            guard let markerRange = plain.range(of: marker) else {
-                errors.append(file.relativePath)
-                continue
-            }
-            let afterMarker = plain[markerRange.upperBound...]
-            guard let separatorRange = afterMarker.range(of: String(repeating: "=", count: max(20, configuration.separatorWidth))) else {
-                errors.append(file.relativePath)
-                continue
-            }
-            let bodyStart = afterMarker.index(separatorRange.upperBound, offsetBy: 0)
-            let body = afterMarker[bodyStart...]
-            let nextMarker = body.range(of: "ФАЙЛ № ")
-            let candidate = nextMarker.map { String(body[..<$0.lowerBound]) } ?? String(body)
-            let cleanedCandidate = candidate.trimmingCharacters(in: .newlines)
-            if cleanedCandidate.hasPrefix("SHA-256 ИСХОДНОГО ФАЙЛА:") {
-                guard let firstNewline = cleanedCandidate.firstIndex(of: "\n") else { errors.append(file.relativePath); continue }
-                let content = String(cleanedCandidate[cleanedCandidate.index(after: firstNewline)...])
-                if content.trimmingCharacters(in: .newlines).hasPrefix(normalizedSource.trimmingCharacters(in: .newlines)) {
-                    matched += 1
-                } else {
-                    errors.append(file.relativePath)
-                }
-            } else {
-                errors.append(file.relativePath)
-            }
+            if canonicalText(extracted) == canonicalText(source) { matched += 1 } else { errors.append(file.relativePath) }
         }
-
         return RTFVerificationResult(checkedFiles: report.files.count, matchedFiles: matched, errors: errors, rtfSize: data.count)
+    }
+
+    private func extractToken(from text: String) -> String? {
+        let prefix = "[[M1R-НАЧАЛО-"
+        guard let start = text.range(of: prefix) else { return nil }
+        let remainder = text[start.upperBound...]
+        guard let end = remainder.range(of: "]]"), let marker = remainder[..<end.lowerBound].split(separator: "-").first else { return nil }
+        return String(marker)
+    }
+
+    private func canonicalText(_ value: String) -> String {
+        value.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n").trimmingCharacters(in: .newlines)
     }
 }
 
 enum TreeBuilder {
-    final class Node {
-        var children: [String: Node] = [:]
-        var file = false
-    }
-
+    final class Node { var children: [String: Node] = [:]; var file = false }
     static func build(files: [SourceFile]) -> String {
         let root = Node()
         for file in files {
             var node = root
-            for part in file.relativePath.split(separator: "/").map(String.init) {
-                node.children[part] = node.children[part] ?? Node()
-                node = node.children[part]!
-            }
+            for part in file.relativePath.split(separator: "/").map(String.init) { node.children[part] = node.children[part] ?? Node(); node = node.children[part]! }
             node.file = true
         }
         var lines: [String] = []
         let names = root.children.keys.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
-        for (index, name) in names.enumerated() {
-            render(root.children[name]!, name, "", index == names.count - 1, &lines)
-        }
+        for (index, name) in names.enumerated() { render(root.children[name]!, name, "", index == names.count - 1, &lines) }
         return lines.joined(separator: "\n")
     }
-
     private static func render(_ node: Node, _ name: String, _ prefix: String, _ last: Bool, _ lines: inout [String]) {
         lines.append(prefix + (last ? "└── " : "├── ") + name + (node.file ? "" : "/"))
         let childPrefix = prefix + (last ? "    " : "│   ")
         let children = node.children.keys.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
-        for (index, child) in children.enumerated() {
-            render(node.children[child]!, child, childPrefix, index == children.count - 1, &lines)
-        }
+        for (index, child) in children.enumerated() { render(node.children[child]!, child, childPrefix, index == children.count - 1, &lines) }
     }
 }
