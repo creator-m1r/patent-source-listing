@@ -32,6 +32,7 @@ struct SourceFile: Identifiable {
     let content: String
     let isDocumentation: Bool
     let isConfiguration: Bool
+    let sha256: String
 }
 
 struct ScanReport {
@@ -46,10 +47,13 @@ struct ScanReport {
 enum ScannerError: LocalizedError {
     case noFolder
     case unsupportedEncoding(URL)
+
     var errorDescription: String? {
         switch self {
-        case .noFolder: return "Папка проекта не выбрана."
-        case .unsupportedEncoding(let url): return "Не удалось определить текстовую кодировку: \(url.path)"
+        case .noFolder:
+            return "Папка проекта не выбрана."
+        case .unsupportedEncoding(let url):
+            return "Не удалось определить текстовую кодировку: \(url.path)"
         }
     }
 }
