@@ -28,7 +28,7 @@ struct ContentView: View {
                 Section("Сведения о программе") {
                     TextField("Название программы", text: $model.metadata.programName)
                     TextField("Название проекта", text: $model.metadata.projectName)
-                    TextField("Версия", text: $model.metadata.version)
+                    TextField("Версия программы", text: $model.metadata.version)
                     TextField("Автор", text: $model.metadata.author)
                     TextField("Правообладатель", text: $model.metadata.copyrightHolder)
                     TextField("Организация", text: $model.metadata.organization)
@@ -61,14 +61,16 @@ struct ContentView: View {
                         .font(.caption).foregroundStyle(.secondary)
                     Stepper("Шрифт: \(Int(model.configuration.fontSize)) pt", value: $model.configuration.fontSize, in: 8...14, step: 1)
                     Stepper("Разделитель: \(model.configuration.separatorWidth) символов", value: $model.configuration.separatorWidth, in: 40...120, step: 10)
-                    Stepper("Контрольный лимит: \(model.configuration.outputSizeLimitMB) МБ", value: $model.configuration.outputSizeLimitMB, in: 1...50)
+                    Text("Максимальный размер RTF: 4,90 МБ (4 900 000 байт)")
+                        .font(.caption).foregroundStyle(.secondary)
                 }
                 Section("Проверка") {
                     Button { showValidation = true } label: { Label("Проверить листинг", systemImage: "checkmark.shield") }
                 }
                 Section("Экспорт") {
                     Button { model.exportRTF() } label: { Label("Сформировать RTF", systemImage: "doc.text") }.disabled(model.report.files.isEmpty)
-                    Text("Courier New · RTF · Unicode-дерево · сквозная нумерация страниц").font(.caption)
+                    Text("Courier New · RTF · Unicode-дерево · сквозная нумерация страниц · автоматическая обратная проверка")
+                        .font(.caption)
                 }
             }
             .formStyle(.grouped)
@@ -128,7 +130,7 @@ private struct DetailView: View {
             if showTree && !model.report.files.isEmpty {
                 GroupBox("Древовидная структура") {
                     ScrollView {
-                        Text(TreeBuilder.build(from: model.report.files))
+                        Text(TreeBuilder.build(files: model.report.files))
                             .font(.system(.caption, design: .monospaced))
                             .textSelection(.enabled)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -148,8 +150,8 @@ private struct DetailView: View {
             List(model.report.files) { file in
                 VStack(alignment: .leading, spacing: 3) {
                     Text(file.relativePath).font(.system(.body, design: .monospaced))
-                    Text("\(file.language) · \(file.lineCount) строк · \(file.size) байт")
-                        .font(.caption).foregroundStyle(.secondary)
+                    Text("\(file.language) · \(file.lineCount) строк · \(file.size) байт · SHA-256: \(file.sha256)")
+                        .font(.caption).foregroundStyle(.secondary).textSelection(.enabled)
                 }.padding(.vertical, 3)
             }
         }.padding(24)
@@ -180,7 +182,9 @@ private struct ValidationView: View {
                 Label(item.0, systemImage: item.1 ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
             }
             Divider()
-            Text("Проверка является технической и не заменяет юридическую проверку комплекта документов.")
+            Text("Техническая проверка RTF выполняется автоматически непосредственно перед сохранением файла.")
+                .font(.caption).foregroundStyle(.secondary)
+            Text("Проверка не заменяет юридическую проверку комплекта документов патентным поверенным.")
                 .font(.caption).foregroundStyle(.secondary)
             HStack { Spacer(); Button("Закрыть") { dismiss() } }
         }.padding(24).frame(width: 520)
