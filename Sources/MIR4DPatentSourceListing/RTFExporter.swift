@@ -174,7 +174,16 @@ final class RTFExporter {
     }
 
     private func canonicalText(_ value: String) -> String {
-        value.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n").trimmingCharacters(in: .newlines)
+        var result = ""
+        result.reserveCapacity(value.count)
+        for char in value {
+            if char.unicodeScalars.contains(where: { CharacterSet.newlines.contains($0) }) {
+                result.append("\n")
+            } else {
+                result.append(char)
+            }
+        }
+        return result.trimmingCharacters(in: .newlines)
     }
 }
 
