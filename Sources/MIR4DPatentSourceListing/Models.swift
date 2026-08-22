@@ -4,6 +4,7 @@ struct ProgramMetadata: Codable {
     var programName = ""
     var projectName = ""
     var version = ""
+    var sourceStateIdentifier = ""
     var author = ""
     var copyrightHolder = ""
     var organization = ""
@@ -15,9 +16,10 @@ struct ProgramMetadata: Codable {
     var notes = ""
 
     static func defaultDate() -> String {
-        let f = DateFormatter()
-        f.dateFormat = "dd.MM.yyyy"
-        return f.string(from: Date())
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter.string(from: Date())
     }
 }
 
@@ -33,6 +35,8 @@ struct SourceFile: Identifiable {
     let isDocumentation: Bool
     let isConfiguration: Bool
     let sha256: String
+    let sourceDataSHA256: String
+    let encodingName: String
 }
 
 struct ScanReport {
